@@ -115,63 +115,63 @@ public class CustomFilters
 public class SteamResponse
 {
 [JsonPropertyName("success")]
-public required int Success { get; set; }
+public  int? Success { get; set; }
 
 
 [JsonPropertyName("cursor")]
-public required string Cursor { get; set; }
+public  string? Cursor { get; set; }
 
 [JsonPropertyName("reviews")]
-public required List<Review> Reviews { get; set; }
+public  List<Review>? Reviews { get; set; }
 }
 
 public class Review
 {
-public int ID { get; set; }
+public int? ID { get; set; }
 [JsonPropertyName("recommendationid")]
-public required string RecommendationId { get; set; }
+public  string? RecommendationId { get; set; }
 
 
 [JsonPropertyName("author")]
-public required Author Author { get; set; }
+public  Author? Author { get; set; }
 
-public string RecommendationUrl =>
+public string? RecommendationUrl =>
     $"https://steamcommunity.com/profiles/{Author.SteamId}/recommended/{App.AppIdStatic}/";
 
 [JsonPropertyName("language")]
-public required string Language { get; set; }
+public  string? Language { get; set; }
 
 [JsonPropertyName("review")]
-public required string ReviewText { get; set; }
+public  string? ReviewText { get; set; }
 
 [JsonPropertyName("timestamp_created")]
-public required long TimestampCreated { get; set; }
+public  long TimestampCreated { get; set; }
 
 public DateTime DateCreated =>
     DateTimeOffset.FromUnixTimeSeconds(TimestampCreated).LocalDateTime;
 
 [JsonPropertyName("timestamp_updated")]
-public required long TimestampUpdated { get; set; }
+public  long TimestampUpdated { get; set; }
 
 public DateTime DateUpdated =>
     DateTimeOffset.FromUnixTimeSeconds(TimestampUpdated).LocalDateTime;
 
 [JsonPropertyName("voted_up")]
-public required bool VotedUp { get; set; }
+public  bool VotedUp { get; set; }
 
-public string Vote =>
+public string? Vote =>
     VotedUp ? "positive" : "negative";
 
 [JsonPropertyName("votes_up")]
-public required int VotesUp { get; set; }
+public  int? VotesUp { get; set; }
 
 [JsonPropertyName("votes_funny")]
-public required int VotesFunny { get; set; }
+public  int? VotesFunny { get; set; }
 
 [JsonPropertyName("weighted_vote_score")]
 [Ignore]
-public required JsonElement RawWeightedVoteScore { get; set; }
-public double WeightedVoteScore {
+public  JsonElement RawWeightedVoteScore { get; set; }
+public double? WeightedVoteScore {
     get
     {
         return RawWeightedVoteScore.ValueKind switch
@@ -188,38 +188,38 @@ public double WeightedVoteScore {
     set => RawWeightedVoteScore = JsonSerializer.Deserialize<JsonElement>(value.ToString());}
 
 [JsonPropertyName("comment_count")]
-public required int CommentCount { get; set; }
+public  int? CommentCount { get; set; }
 
 [JsonPropertyName("steam_purchase")]
-public required bool SteamPurchase { get; set; }
+public  bool? SteamPurchase { get; set; }
 
 [JsonPropertyName("received_for_free")]
-public required bool ReceivedForFree { get; set; }
+public  bool? ReceivedForFree { get; set; }
 
 [JsonPropertyName("refunded")]
-public required bool Refunded { get; set; }
+public  bool? Refunded { get; set; }
 
 [JsonPropertyName("written_during_early_access")]
-public required bool WrittenDuringEarlyAccess { get; set; }
+public  bool? WrittenDuringEarlyAccess { get; set; }
 
 [JsonPropertyName("primarily_steam_deck")]
-public required bool PrimarilySteamDeck { get; set; }
+public  bool? PrimarilySteamDeck { get; set; }
 
 [JsonPropertyName("app_release_date")]
-public required string AppReleaseDate { get; set; }
+public  string? AppReleaseDate { get; set; }
 
 public DateTime AppReleaseDateTime =>
     DateTimeOffset.FromUnixTimeSeconds(long.Parse(AppReleaseDate)).LocalDateTime;
 
 [JsonPropertyName("reactions")]
-public required List<Reaction> Reactions { get; set; }
+public  List<Reaction> Reactions { get; set; }
 
 [JsonPropertyName("hardware")]
 public Hardware? Hardware { get; set; }
 }
 public class Hardware
 {
-    public int ReviewID { get; set; }
+    public int? ReviewID { get; set; }
     [JsonPropertyName("manufacturer")]
     public string? Manufacturer { get; set; }
 
@@ -268,46 +268,47 @@ public class Hardware
 
 public class Author
 {
-public int ReviewID { get; set; }
+public int? ReviewID { get; set; }
 
 [JsonPropertyName("steamid")]
-public required string SteamId { get; set; }
+public  string? SteamId { get; set; }
 
 
 [JsonPropertyName("personaname")]
-public required string PersonaName { get; set; }
+public  string? PersonaName { get; set; }
 
 [JsonPropertyName("persona_status")]
-public required string PersonaStatus { get; set; }
+public  string? PersonaStatus { get; set; }
 
 [JsonPropertyName("profile_url")]
-public required string ProfileUrl { get; set; }
+public  string? ProfileUrl { get; set; }
 
 [JsonPropertyName("num_games_owned")]
-public required int NumGamesOwned { get; set; }
+public  int? NumGamesOwned { get; set; }
 
 [JsonPropertyName("num_reviews")]
-public required int NumReviews { get; set; }
+public  int? NumReviews { get; set; }
 
 [JsonPropertyName("playtime_forever")]
-public required int PlaytimeForever { get; set; }
+public  int? PlaytimeForever { get; set; }
 
 [JsonPropertyName("playtime_last_two_weeks")]
-public required int PlaytimeLastTwoWeeks { get; set; }
+public  int? PlaytimeLastTwoWeeks { get; set; }
 
-[JsonPropertyName("playtime_at_review")]
-public required int PlaytimeAtReview { get; set; }
+// [JsonPropertyName("playtime_at_review")]
+public int? playtime_at_review { get; set; }
+public  int? PlaytimeAtReview { get {return playtime_at_review;} set { playtime_at_review = value;} }
 
 [JsonPropertyName("last_played")]
-public required long LastPlayed { get; set; }
+public  long LastPlayed { get; set; }
 
 public DateTime LastPlayedDateTime =>
     DateTimeOffset.FromUnixTimeSeconds(LastPlayed).LocalDateTime;
 
 [JsonPropertyName("avatar")]
-public required string Avatar { get; set; }
+public  string? Avatar { get; set; }
 
-public string FullAvatar =>
+public string? FullAvatar =>
     $"https://avatars.akamai.steamstatic.com/{Avatar}_full.jpg";
 
 
@@ -316,11 +317,11 @@ public string FullAvatar =>
 public class Reaction
 {
 [JsonPropertyName("reaction_type")]
-public required int ReactionType { get; set; }
+public  int? ReactionType { get; set; }
 
 
 [JsonPropertyName("count")]
-public required int Count { get; set; }
+public  int? Count { get; set; }
 
 
 }
