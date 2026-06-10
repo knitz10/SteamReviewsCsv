@@ -10,7 +10,7 @@ trzy plusy, trzy minusy, dla samego usera. brac pod uwage tagi.
 
 rekomendacje z tego... 
 
-I got this, recommendation of expansion i suppose, from my teacher lol, and it's honestly pretty cool looking, so I guess I'll try to do it after the exam.
+I got this, recommendation of expansion i suppose, from my teacher lol, and it's honestly pretty cool looking, so I guess I'll try to do it after the exams/during summer.
 -->
 - [ ] "Clean up" the project, sticking to OOP rules, make it ready for the big change that hopefully will happen
 - [ ] Implement better/proper argument support
@@ -23,6 +23,8 @@ I got this, recommendation of expansion i suppose, from my teacher lol, and it's
     - [ ] Implement ML.NET for user analisys based on their profile and the game's page, as well as the player reviews, taking in account these fields(and possibly more):
             
             NumGamesOwned	NumReviews	PlaytimeForever	PlaytimeLastTwoWeeks	PlaytimeAtReview VotesUp	VotesFunny	WeightedVoteScore		SteamPurchase	ReceivedForFree	Refunded	WrittenDuringEarlyAccess
+    - [ ] Implement the outputting, why the user might like the game and why they might not like it using points based on the gathered data, as well as just displaying some data comparing the user to other players.
+  - [ ] (if unoptimized) optimize the program, data gathering(api usage), data analisys by the ai.
 
-  - [ ] Implement other recommendations based on player reviews (maybe, prolly wont happen)
-  - [ ] Possibly make a GUI for the output using Avalonia, and if not a GUI then a graphic output in some way, so the users don't have to look at a damn spreadsheet
+  - [ ] Implement other recommendations based on player reviews (maybe, prolly wont happen tho)
+  - [ ] Possibly make a GUI for the output using Avalonia, and if not a GUI then a graphic output in some way, so the users don't have to look at a damn spreadsheet(also uncertain)
