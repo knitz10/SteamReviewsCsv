@@ -12,10 +12,10 @@ rekomendacje z tego...
 
 I got this, recommendation of expansion i suppose, from my teacher lol, and it's honestly pretty cool looking, so I guess I'll try to do it after the exams/during summer.
 -->
-- [ ] "Clean up" the project, sticking to OOP rules, make it ready for the big change that hopefully will happen
-- [ ] Implement better/proper argument support
-- [ ] Improve the output, clean it up, making it ready for the big change \[...], and in general
-- [ ] Add a new feature; taking in account the User's profile for analisys (with either ollama, ML.NET, or ai api) of the games they play (public profile will be required, obviously), hopefully using the public Steam endpoints(?) or whatever so no api token is needed
+- [x] "Clean up" the project, (partially) sticking to OOP rules, make it ready for the big change that hopefully will happen (and so that it's generally easier to read)
+- [x] Implement better/proper argument support
+- [x] Improve the output, clean it up, making it ready for the big change \[...], and in general
+- [ ] Add a new feature; taking in account the User's profile for analisys (with either ollama, ML.NET, or some online ai api(maybe all will be supported)) of the games they play (public profile will be required, obviously), hopefully using the public Steam endpoints(?) or whatever so no api token is needed(prolly not gonna be possible without api token but we'll see)
   - [ ]  Implement data analisys
     - [ ] Implement getting data from the user's profile; and their played games
     - [ ] Implement getting the user's games' data, taking in account the games' tags, and user's playtime in those, as well as their review (if exists)
