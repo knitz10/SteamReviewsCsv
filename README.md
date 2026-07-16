@@ -6,7 +6,7 @@ You can customize the Url's filters and have a custom csv output if you wish to.
 
 ## Usage
 
-To run this program, open your Cmd/Terminal, because this is a console application, and run ```path/to/program/binary``` (for example ```C:/Users/{YourUsername}/Downloads/SteamReviewCsv``` on Windows)
+To run this program, open your Cmd/Terminal, because this is a console application, and run ```path/to/program/binary``` (for example ```C:/Users/{YourUsername}/Downloads/SteamReviewCsv.exe``` on Windows)
 
 **This program supports these arguments:**
 
