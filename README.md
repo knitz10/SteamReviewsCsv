@@ -101,6 +101,7 @@ To run this program, open your Cmd/Terminal, because this is a console applicati
             - PreciseFrameRate<br>
     </details>
 </details>
+
 - ```--custom-filters``` - when used correctly(parameter by parameter(can be null)), the app will use customized filters in the URL. Not recommended to use, and the param "all" for filter is unsupported, but if you really need to use it, here is an example: ```recent,english,positive,non_steam_purchase,10,30,2,0```. It maps to ```filter,language,review_type,purchase_type,num_per_page,day_range,start_offset,filter_offtopic_activity```. To find out more about these, look at [Steam's docs](https://partner.steamgames.com/doc/store/getreviews#:~:text=the%20parameters%20below.-,Parameters%3A,-GET%20store.steampowered).
 
 ## How to build for different systems (single file release):
