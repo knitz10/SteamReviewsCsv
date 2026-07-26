@@ -6,7 +6,7 @@ namespace SteamReviewsCsv
 {
     internal class Csv
     {
-        public static void SaveCsv(List<Review> reviews, string filename, bool useRecommendedOutput, CustomOutput customOutput)
+        public static void SaveCsv(List<Review> reviews, string gameName, bool useRecommendedOutput, CustomOutput customOutput, bool useAdditionalOutput)
         {
             foreach (var review in reviews)
             {
@@ -136,7 +136,7 @@ namespace SteamReviewsCsv
                 }
             }
 
-            var MainRecords = new List<Review>(reviews);
+            var FullRecords = new List<Review>(reviews);
             var HardwareRecords = new List<Hardware>();
 
 
@@ -156,34 +156,40 @@ namespace SteamReviewsCsv
                 AuthorRecords.Add(review.Author);
             }
 
-            // Main Records
-            using (var writer = new StreamWriter($"{filename}_reviews_MainRecords.csv"))
+            // Full Records
+            using (var writer = new StreamWriter($"{gameName}_reviews_FullRecords.csv"))
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
-                csv.WriteRecords(MainRecords);
+                csv.WriteRecords(FullRecords);
             }
 
             // Author Records
-            using (var writer = new StreamWriter($"{filename}_reviews_AuthorRecords.csv"))
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            if (useAdditionalOutput)
             {
-                csv.WriteRecords(AuthorRecords);
+                using (var writer = new StreamWriter($"{gameName}_reviews_AuthorRecords.csv"))
+                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                {
+                    csv.WriteRecords(AuthorRecords);
+                }
             }
 
             // Hardware Records
-            using (var writer = new StreamWriter($"{filename}_reviews_HardwareRecords.csv"))
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            if (useAdditionalOutput)
             {
-                csv.WriteRecords(HardwareRecords);
+                using (var writer = new StreamWriter($"{gameName}_reviews_HardwareRecords.csv"))
+                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                {
+                    csv.WriteRecords(HardwareRecords);
+                }
             }
 
             // Custom Output
             if (customOutput.Fields.Count > 0)
             {
-                using (var writer = new StreamWriter($"{filename}_reviews_CustomOutput.csv"))
+                using (var writer = new StreamWriter($"{gameName}_reviews_CustomOutput.csv"))
                 using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
                 {
-                    using (var reader = new StreamReader($"{filename}_reviews_MainRecords.csv"))
+                    using (var reader = new StreamReader($"{gameName}_reviews_FullRecords.csv"))
                     using (var fullFile = new CsvReader(reader, CultureInfo.InvariantCulture))
                     {
                         var records = fullFile.GetRecords<ReviewCsv>();
@@ -198,10 +204,10 @@ namespace SteamReviewsCsv
                             {
                                 csv.WriteField(
                                 record.GetType()
-                                    .GetProperty(field)?
-                                    .GetValue(record)?
-                                    .ToString() ?? ""
-                            );
+                                .GetProperty(field)?
+                                .GetValue(record)?
+                                .ToString() ?? ""
+                                );
                             }
 
                             csv.NextRecord();
@@ -213,10 +219,10 @@ namespace SteamReviewsCsv
             // Recommended Output
             if (useRecommendedOutput)
             {
-                using (var writer = new StreamWriter($"{filename}_reviews_RecommendedOutput.csv"))
+                using (var writer = new StreamWriter($"{gameName}_reviews_RecommendedOutput.csv"))
                 using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
                 {
-                    using (var reader = new StreamReader($"{filename}_reviews_MainRecords.csv"))
+                    using (var reader = new StreamReader($"{gameName}_reviews_FullRecords.csv"))
                     using (var fullFile = new CsvReader(reader, CultureInfo.InvariantCulture))
                     {
                         var records = fullFile.GetRecords<ReviewCsv>();
@@ -232,10 +238,10 @@ namespace SteamReviewsCsv
                             {
                                 csv.WriteField(
                                 record.GetType()
-                                    .GetProperty(field)?
-                                    .GetValue(record)?
-                                    .ToString() ?? ""
-                            );
+                                .GetProperty(field)?
+                                .GetValue(record)?
+                                .ToString() ?? ""
+                                );
                             }
 
                             csv.NextRecord();

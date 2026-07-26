@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -50,7 +51,8 @@ namespace SteamReviewsCsv
                 $"&start_offset={(customFilters.startOffset > 0 ? customFilters.startOffset : startOffset)}" +
                 $"&filter_offtopic_activity={(customFilters.filterOfftopicActivity != 1 && customFilters.filterOfftopicActivity != 0 ? 1 : customFilters.filterOfftopicActivity)}" +
                 $"&cursor={cursor}";
-                Console.WriteLine($"Requesting: {requestUrl}");
+                // Only prints the request URL if the debugger is attached, to avoid cluttering the console in normal use
+                if (Program.debugMode) { Console.WriteLine($"Requesting: {requestUrl}"); }
                 var response = await client.GetAsync(requestUrl);
 
                 if (response.StatusCode != HttpStatusCode.OK)
