@@ -11,8 +11,9 @@ To run this program, open your Cmd/Terminal, because this is a console applicati
 **This program supports these arguments:**
 
 - ```help``` - shows general help
-- ```appId``` - number(you don't have to use --), for example: 440. It is the appID of the game/app on Steam you'd want to get the reviews of. You can find it in the url:<br>[https://store.steampowered.com/app/**440**/Team_Fortress_2/](https://store.steampowered.com/app/440/Team_Fortress_2/)
+- ```appId``` - number(you don't have to use --), for example: 440. It is the appID of the game/app on Steam you'd want to get the reviews of. You can find it in the url:<br>[https://store.steampowered.com/app/**440**/Team_Fortress_2/](https://store.steampowered.com/app/440/Team_Fortress_2/). You can also use the full url. 
 - ```--use-recommended-output``` - also include the recommended (by me) output. Off by default.
+- ```--additional-output``` - also include Author Records and Hardware Records separately. Off by default.
 - ```--custom-output``` - when used correctly, the app will generate an additional {appId}_reviews_CustomOutput.csv, which will have whatever values you set. Comma separated(example: ID,PersonaName,ReviewText) <details><summary>Available values</summary>
         <details>
         <summary>Review</summary>
