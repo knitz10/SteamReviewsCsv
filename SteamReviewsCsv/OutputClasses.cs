@@ -110,6 +110,10 @@ namespace SteamReviewsCsv
         [Name("Written During Early Access")]
         public bool? WrittenDuringEarlyAccess { get; set; }
 
+        [JsonPropertyName("developer_response")]
+        [Name("Developer Response")]
+        public string? DeveloperResponse {get; set;}
+
         [JsonPropertyName("primarily_steam_deck")]
         [Name("Primarily Steam Deck")]
         public bool? PrimarilySteamDeck { get; set; }

@@ -57,10 +57,7 @@ namespace SteamReviewsCsv
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"Steam returned {response.StatusCode} which was not OK");
-                    Console.ResetColor();
-                    Environment.Exit(1);
+                    throw new Exception($"Steam returned {response.StatusCode} which was not OK");
                 }
 
                 var json = await response.Content.ReadAsStringAsync();

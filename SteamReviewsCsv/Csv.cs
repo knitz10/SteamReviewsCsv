@@ -166,87 +166,75 @@ namespace SteamReviewsCsv
             // Author Records
             if (useAdditionalOutput)
             {
-                using (var writer = new StreamWriter($"{gameName}_reviews_AuthorRecords.csv"))
-                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-                {
-                    csv.WriteRecords(AuthorRecords);
-                }
+                using var writer = new StreamWriter($"{gameName}_reviews_AuthorRecords.csv");
+                using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+                csv.WriteRecords(AuthorRecords);
             }
 
             // Hardware Records
             if (useAdditionalOutput)
             {
-                using (var writer = new StreamWriter($"{gameName}_reviews_HardwareRecords.csv"))
-                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-                {
-                    csv.WriteRecords(HardwareRecords);
-                }
+                using var writer = new StreamWriter($"{gameName}_reviews_HardwareRecords.csv");
+                using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+                csv.WriteRecords(HardwareRecords);
             }
 
             // Custom Output
             if (customOutput.Fields.Count > 0)
             {
-                using (var writer = new StreamWriter($"{gameName}_reviews_CustomOutput.csv"))
-                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                using var writer = new StreamWriter($"{gameName}_reviews_CustomOutput.csv");
+                using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+                using var reader = new StreamReader($"{gameName}_reviews_FullRecords.csv");
+                using var fullFile = new CsvReader(reader, CultureInfo.InvariantCulture);
+                var records = fullFile.GetRecords<ReviewCsv>();
+                foreach (var field in customOutput.Fields)
                 {
-                    using (var reader = new StreamReader($"{gameName}_reviews_FullRecords.csv"))
-                    using (var fullFile = new CsvReader(reader, CultureInfo.InvariantCulture))
+                    csv.WriteField(field);
+                }
+                csv.NextRecord();
+                foreach (var record in records)
+                {
+                    foreach (var field in customOutput.Fields)
                     {
-                        var records = fullFile.GetRecords<ReviewCsv>();
-                        foreach (var field in customOutput.Fields)
-                        {
-                            csv.WriteField(field);
-                        }
-                        csv.NextRecord();
-                        foreach (var record in records)
-                        {
-                            foreach (var field in customOutput.Fields)
-                            {
-                                csv.WriteField(
-                                record.GetType()
-                                .GetProperty(field)?
-                                .GetValue(record)?
-                                .ToString() ?? ""
-                                );
-                            }
-
-                            csv.NextRecord();
-                        }
+                        csv.WriteField(
+                        record.GetType()
+                        .GetProperty(field)?
+                        .GetValue(record)?
+                        .ToString() ?? ""
+                        );
                     }
+
+                    csv.NextRecord();
                 }
             }
 
             // Recommended Output
             if (useRecommendedOutput)
             {
-                using (var writer = new StreamWriter($"{gameName}_reviews_RecommendedOutput.csv"))
-                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                using var writer = new StreamWriter($"{gameName}_reviews_RecommendedOutput.csv");
+                using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+                using var reader = new StreamReader($"{gameName}_reviews_FullRecords.csv");
+                using var fullFile = new CsvReader(reader, CultureInfo.InvariantCulture);
+                var records = fullFile.GetRecords<ReviewCsv>();
+                CustomOutput RecommendedOutput = CustomOutput.Parse("ID,PersonaName,Language,DateCreated,PlaytimeAtReview,PlaytimeForever,ReviewText,Vote,VotesUp,VotesFunny,WeightedVoteScore,SteamPurchase,ReceivedForFree,WrittenDuringEarlyAccess");
+                foreach (var field in RecommendedOutput.Fields)
                 {
-                    using (var reader = new StreamReader($"{gameName}_reviews_FullRecords.csv"))
-                    using (var fullFile = new CsvReader(reader, CultureInfo.InvariantCulture))
+                    csv.WriteField(field);
+                }
+                csv.NextRecord();
+                foreach (var record in records)
+                {
+                    foreach (var field in RecommendedOutput.Fields)
                     {
-                        var records = fullFile.GetRecords<ReviewCsv>();
-                        CustomOutput RecommendedOutput = CustomOutput.Parse("ID,PersonaName,Language,DateCreated,PlaytimeAtReview,PlaytimeForever,ReviewText,Vote,VotesUp,VotesFunny,WeightedVoteScore,SteamPurchase,ReceivedForFree,WrittenDuringEarlyAccess");
-                        foreach (var field in RecommendedOutput.Fields)
-                        {
-                            csv.WriteField(field);
-                        }
-                        csv.NextRecord();
-                        foreach (var record in records)
-                        {
-                            foreach (var field in RecommendedOutput.Fields)
-                            {
-                                csv.WriteField(
-                                record.GetType()
-                                .GetProperty(field)?
-                                .GetValue(record)?
-                                .ToString() ?? ""
-                                );
-                            }
-
-                            csv.NextRecord();
-                        }
+                        csv.WriteField(
+                        record.GetType()
+                        .GetProperty(field)?
+                        .GetValue(record)?
+                        .ToString() ?? ""
+                        );
                     }
+
+                    csv.NextRecord();
                 }
             }
         }
@@ -390,6 +378,8 @@ namespace SteamReviewsCsv
         public bool Refunded { get; set; }
         [Name("Written During Early Access")]
         public bool WrittenDuringEarlyAccess { get; set; }
+        [Name("Developer Response")]
+        public string? DeveloperResponse {get; set;}
         [Name("Primarily Steam Deck")]
         public bool PrimarilySteamDeck { get; set; }
 

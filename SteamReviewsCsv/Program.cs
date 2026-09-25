@@ -25,7 +25,7 @@ namespace SteamReviewsCsv
             string customFilters = ",,,,,,,";
             int[] AvailableArgs = [0, 1, 2, 3, 4, 5, 6, 7];
 
-            if (args.Length < 1) { Console.ForegroundColor = ConsoleColor.Red; Console.WriteLine($"You forgot to put in the AppID!"); Console.ResetColor(); Environment.Exit(1); }
+            if (args.Length < 1) { throw new Exception($"You forgot to put in the AppID!"); }
 
             if (args.Contains("--help")) { Console.WriteLine($"AppId* (the id of the app you want to get reviews for, you can get it from the url, right after /app/. The full URL is also supported)\n--use-recommended-output: Whether to use recommended (by me) output or no (turned off by default)\n--additional-output: Whether to use additional output (by me) or no (turned off by default)\n--custom-output: Your own custom output (comma separated) (example: \"Author,ReviewText,TimestampCreated\")\n--custom-filters: Your own custom filters for the query (comma separated) (not recommended)(use Steam docs for reference: {Misc.TerminalURL("Steam Docs", "https://partner.steamgames.com/doc/store/getreviews#:~:text=the%20parameters%20below.-,Parameters%3A,-GET%20store.steampowered")})\nRead README.md for more info\n*required"); Environment.Exit(0); }
             if (args.Contains("--use-recommended-output"))
@@ -71,13 +71,11 @@ namespace SteamReviewsCsv
             var response = await client.GetAsync($"https://store.steampowered.com/api/appdetails?appids={appId}");
             var json = await response.Content.ReadAsStringAsync();
             using var doc = JsonDocument.Parse(json);
-            string gameName =
-            doc.RootElement
-            .GetProperty(appId.ToString())
-            .GetProperty("data")
-            .GetProperty("name")
-            .GetString()!;
-            App app = new(appId);
+            var entry = doc.RootElement.EnumerateObject().First().Value;
+            string? gameName = entry.GetProperty("success").GetBoolean()
+                ? entry.GetProperty("data").GetProperty("name").GetString()
+                : throw new Exception("Steam returned \"success: false\", something went wrong. Are you sure the appID is correct? If you're having trouble, use the full URL instead.");
+                App app = new(appId);
             CustomFilters customFiltersClass = new("", "", "", "", "", 0, 0, 1);
 
             // Parse the custom filters into a CustomFilters object
@@ -97,10 +95,6 @@ namespace SteamReviewsCsv
             catch (FormatException)
             {
                 customFiltersClass = new CustomFilters("", "", "", "", "", 0, 0, 1);
-            }
-            foreach (string field in customFilters.Split(','))
-            {
-                Console.WriteLine($"{field}");
             }
 
             // Get the reviews and save them to a CSV file
